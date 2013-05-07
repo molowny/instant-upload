@@ -12,5 +12,11 @@ module InstantUpload
       g.stylesheets = false
       g.javascripts = false
     end
+
+    initializer 'instant_upload.initialize' do
+      ActiveSupport.on_load(:action_view) do
+        include InstantUpload::Helpers::UploadHelper
+      end
+    end
   end
 end

@@ -10,4 +10,10 @@
  *
  *= require_self
  *= require_tree .
+ *= require instant_upload
  */
+
+ #container {
+  width: 900px;
+  margin: 0 auto;
+ }

@@ -11,17 +11,19 @@
     </div>
   <% end %>
 
+  <!-- <div class="field">
+    <%= f.label :avatar %><br>
+    <%= f.file_field :avatar %>
+  </div> -->
+  <div>
+    <%= instant_upload_for @user, :avatar, version: :thumb %>
+  </div>
+
   <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :avatar %><br>
-    <%= f.file_field :avatar %>
-  </div>
-  <div>
-    <%= instant_upload_for @user, :avatar %>
-  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

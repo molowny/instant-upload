@@ -17,8 +17,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '~> 4.0.0.rc1'
   s.add_dependency 'carrierwave'
+  s.add_dependency 'haml'
 
-  s.add_development_dependency 'carrierwave'
+  # s.add_development_dependency 'carrierwave'
   s.add_development_dependency 'mini_magick'
 
   s.add_development_dependency 'sqlite3'
@@ -28,11 +29,13 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'factory_girl_rails'
   s.add_development_dependency 'shoulda'
-  # s.add_development_dependency 'webmock'
+  s.add_development_dependency 'rspec-html-matchers'
+  
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'poltergeist'
+  s.add_development_dependency 'launchy'
 
   s.add_development_dependency 'database_cleaner', '1.0.0.RC1'
-
-  # s.add_development_dependency 'capybara'
 
   s.add_development_dependency 'guard-rspec'
   s.add_development_dependency 'rb-fsevent'

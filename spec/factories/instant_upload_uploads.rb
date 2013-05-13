@@ -1,8 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :user do
-    name "MyString"
-    avatar "MyString"
+  factory :instant_upload_upload, :class => 'Upload' do
+    file "MyString"
   end
 end

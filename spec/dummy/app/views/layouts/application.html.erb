@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app='instantUpload'>
 <head>
   <title>Dummy</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
@@ -8,7 +8,9 @@
 </head>
 <body>
 
-<%= yield %>
+  <div id="container">
+    <%= yield %>
+  </div>
 
 </body>
 </html>

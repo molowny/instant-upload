@@ -1,0 +1,11 @@
+.iu-simple{ 'ng-controller' => 'singleIuCtrl', data: { persisted: record.persisted?.to_s } }
+  .iu-simple-dropzone{ 'ng-class' => '{uploading:uploaded == false}' }
+    = image_tag preview, class: 'iu-simple-image'
+    .iu-progress-bar{ style: "width: {{ uploadProgress }}%;" }
+
+  = file_field :user, resource
+
+  .iu-simple-select
+    drag & drop or
+    = link_to 'select file from disk', '#', class: 'iu-simple-select-files'
+

@@ -23,19 +23,45 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
-    else
-      render action: 'new'
+    respond_to do |format|
+      format.html do
+
+        if session[:user_avatar]
+          tmp_file = InstantUpload::Upload.find(session[:user_avatar])
+          @user.avatar = tmp_file.file
+        end
+        
+
+        if @user.save
+          session.delete(:user_avatar)
+          redirect_to @user, notice: 'User was successfully created.'
+        else
+          render action: 'new'
+        end
+      end
+
+      format.json do
+        tmp_file = InstantUpload::Upload.new
+        tmp_file.file = @user.avatar
+        tmp_file.save
+
+        session[:user_avatar] = tmp_file.id
+
+        render json: { image: tmp_file.file.url }
+      end
     end
   end
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
-    else
-      render action: 'edit'
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { render json: { image: @user.avatar.thumb.url } }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 

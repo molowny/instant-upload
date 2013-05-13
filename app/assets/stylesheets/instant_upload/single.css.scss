@@ -1,0 +1,28 @@
+.iu-simple {
+  position: relative;
+
+  .iu-simple-dropzone {
+    position: relative;
+    overflow: hidden;
+
+    &.uploading {
+      .iu-progress-bar {
+        height: 5px;
+        background: red;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .iu-simple-select {
+    display: none;
+
+    .iu-select-files {
+      z-index: 1;
+    }
+  }
+
+}
+

@@ -1,18 +1,17 @@
-.iu-multi{ 'ng-controller' => 'multiIuCtrl', data: { persisted: record.persisted?.to_s } }
+.iu-multi{ 'ng-controller' => 'multiIuCtrl', data: options }
   .iu-multi-dropzone{ 'ng-class' => '{uploading:uploaded == false}' }
     .iu-progress-bar{ style: "width: {{ uploadProgress }}%;" }
-
-    = file_field_tag 'product[images_attributes][][path]', multiple: true
+    = file_field_tag "#{record.class.name.downcase}[#{field}_attributes][][#{options[:multi]}]", multiple: true
 
     .iu-multi-select
       drag & drop or
       = link_to 'select file from disk', '#', class: 'iu-multi-select-files'
 
   %ul.iu-multi-files-cache
-    - record.images.each do |img|
-      %li= image_tag img.path.thumb.url
+    - record.send(field).each do |img|
+      %li= image_tag img.send(options[:multi]).send(options[:version]).url
 
-  .iu-alert Too much, only X
+  .iu-alert Too much, only #{options[:limit]}
 
   %ul.iu-multi-files
     %li{ 'ng-repeat' => 'file in files'}

@@ -17,6 +17,10 @@ module InstantUpload
       ActiveSupport.on_load(:action_view) do
         include InstantUpload::Helpers::UploadHelper
       end
+
+      ActiveSupport.on_load(:action_controller) do
+        include InstantUpload::Helpers::ControllerHelper
+      end
     end
   end
 end

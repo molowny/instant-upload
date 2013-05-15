@@ -17,8 +17,10 @@
   </div>
 
   <div>
-    <%= multi_instant_upload_for @product, :images, version: :thumb %>
+    <%= instant_upload_for @product, :images, multi: :path, version: :thumb, limit: 10 %>
   </div>
+
+  <%= debug session[:product_images] %>
 
   <div class="actions">
     <%= f.submit %>

@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    load_uploaded_files(@user, :avatar)
   end
 
   # GET /users/1/edit
@@ -23,29 +24,17 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
+    return if handle_upload(@user, :avatar)
+
     respond_to do |format|
-      format.html do
-        if session[:user_avatar]
-          tmp_file = InstantUpload::Upload.find(session[:user_avatar])
-          @user.avatar = tmp_file.file
-        end
+      if @user.save
+        clear_uploaded_files(@user, :avatar)
 
-        if @user.save
-          session.delete(:user_avatar)
-          redirect_to @user, notice: 'User was successfully created.'
-        else
-          render action: 'new'
-        end
-      end
-
-      format.json do
-        tmp_file = InstantUpload::Upload.new
-        tmp_file.file = @user.avatar
-        tmp_file.save
-
-        session[:user_avatar] = tmp_file.id
-
-        render json: { image: tmp_file.file.url }
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render json: @user }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end

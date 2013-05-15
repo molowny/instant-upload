@@ -5,6 +5,10 @@
     position: relative;
     overflow: hidden;
 
+    &.iu-drag-over {
+      border: 5px solid black;
+    }
+
     &.uploading {
       .iu-progress-bar {
         height: 5px;

@@ -7,7 +7,9 @@ app = angular.module('instantUpload', [])
 
     constructor: ($uploader) ->
       @url = $uploader.parents('form').attr('action')
-      @persisted = $uploader.data('persisted')
+      $scope.persisted = $uploader.data('persisted')
+      $scope.field = $uploader.data('field')
+      $scope.version = $uploader.data('version')
 
       @element = $uploader.find('.iu-simple-dropzone')
 
@@ -37,6 +39,7 @@ app = angular.module('instantUpload', [])
           '-ms-filter': '"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"'
           'filter': 'alpha(opacity=0)'
 
+      @fileinput = $fileInput
 
     dragEnter: (e) =>
       # console.log 'dragEnter'
@@ -68,8 +71,6 @@ app = angular.module('instantUpload', [])
 
       @element.removeClass 'iu-drag-over'
 
-      dataTransfer = e.dataTransfer = e.originalEvent && e.originalEvent.dataTransfer
-
       # get files from drag and drop dataTransfer
       if typeof e.originalEvent.dataTransfer == 'undefined'
         files = e.originalEvent.target.files
@@ -77,7 +78,7 @@ app = angular.module('instantUpload', [])
         files = e.originalEvent.dataTransfer.files
 
       fd = new FormData
-      fd.append 'user[avatar]', files[0]
+      fd.append  @fileinput.attr('name'), files[0]
 
       xhr = new XMLHttpRequest
 
@@ -97,7 +98,7 @@ app = angular.module('instantUpload', [])
         $scope.$apply ->
           $scope.uploaded = true
 
-        @element.find('img').attr('src', $.parseJSON(xhr.response).avatar.thumb.url)
+        @element.find('img').attr('src', $.parseJSON(xhr.response)[$scope.field][$scope.version].url)
       ), false
 
       xhr.addEventListener 'error', ( (e) =>
@@ -109,13 +110,13 @@ app = angular.module('instantUpload', [])
       ), false
 
 
-      if @persisted
+      if $scope.persisted
         method = 'PATCH'
       else
         method = 'POST'
 
       xhr.open method, "#{@url}.json"
-      # xhr.setRequestHeader 'X-Slider-Id', res.slider.id
+      xhr.setRequestHeader 'X-Instant-Upload', true
       xhr.send fd
 
       return false
@@ -136,9 +137,6 @@ app = angular.module('instantUpload', [])
 
       $this.find('img').css 'width', width
       $this.find('img').css 'height', height
-
-  # to fix problem with offset in WebKit browsers
-
 
   $ -> $scope.init($($element)) if !!window.FormData
 

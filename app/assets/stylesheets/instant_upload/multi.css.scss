@@ -15,6 +15,10 @@
 
       border: 5px solid black;
 
+      &.iu-drag-over {
+        background: silver;
+      }
+
       &.uploading {
         .iu-progress-bar {
           height: 5px;

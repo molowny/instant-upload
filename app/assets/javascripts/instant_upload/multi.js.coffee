@@ -7,7 +7,11 @@ app = angular.module('instantUpload', [])
 
     constructor: ($uploader) ->
       @url = $uploader.parents('form').attr('action')
-      @persisted = $uploader.data('persisted')
+
+      $scope.persisted = $uploader.data('persisted')
+      $scope.limit = $uploader.data('limit')
+      $scope.multi = $uploader.data('multi')
+      $scope.version = $uploader.data('version')
 
       @uploader = $uploader
       @element = $uploader.find('.iu-multi-dropzone')
@@ -38,6 +42,7 @@ app = angular.module('instantUpload', [])
           '-ms-filter': '"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"'
           'filter': 'alpha(opacity=0)'
 
+      @fileinput = $fileInput
 
     dragEnter: (e) =>
       # console.log 'dragEnter'
@@ -75,14 +80,18 @@ app = angular.module('instantUpload', [])
       else
         files = e.originalEvent.dataTransfer.files
 
-      if $scope.files.length + files.length > 5
+      if $scope.limit != undefined && $scope.files.length + files.length > parseInt($scope.limit)
         @uploader.find('.iu-alert').show()
         return
 
       fd = new FormData
 
       for file in files
-        fd.append 'product[images_attributes][][path]', file
+        fd.append @fileinput.attr('name'), file
+
+      $scope.$apply ->
+        $scope.uploaded = false
+        $scope.uploadProgress = 0
 
       xhr = new XMLHttpRequest
 
@@ -98,9 +107,9 @@ app = angular.module('instantUpload', [])
         $scope.$apply ->
           $scope.uploaded = true
 
-          $scope.files = []
+          # $scope.files = []
           for image in $.parseJSON(xhr.response)
-            $scope.files.push { path: image.path.thumb.url }
+            $scope.files.push { path: image[$scope.multi][$scope.version].url }
       ), false
 
       xhr.addEventListener 'error', ( (e) =>
@@ -112,13 +121,13 @@ app = angular.module('instantUpload', [])
       ), false
 
 
-      if @persisted
+      if $scope.persisted
         method = 'PATCH'
       else
         method = 'POST'
 
       xhr.open method, "#{@url}.json"
-      # xhr.setRequestHeader 'X-Slider-Id', res.slider.id
+      xhr.setRequestHeader 'X-Instant-Upload', true
       xhr.send fd
 
       return false

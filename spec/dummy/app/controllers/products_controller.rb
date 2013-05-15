@@ -13,6 +13,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    load_uploaded_files(@product, :images, multi: :path)
   end
 
   # GET /products/1/edit
@@ -23,10 +24,19 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
-    if @product.save
-      redirect_to @product, notice: 'Product was successfully created.'
-    else
-      render action: 'new'
+    return if handle_upload(@product, :images, multi: :path)
+
+    respond_to do |format|
+      if @product.save
+        # clear images saved in session
+        clear_uploaded_files(@product, :images)
+
+        format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        format.json { render json: @product }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
     end
   end
 

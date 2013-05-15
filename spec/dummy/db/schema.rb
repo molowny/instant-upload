@@ -11,10 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130509140405) do
+ActiveRecord::Schema.define(version: 20130514075455) do
+
+  create_table "images", force: true do |t|
+    t.integer  "product_id"
+    t.string   "path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "images", ["product_id"], name: "index_images_on_product_id"
 
   create_table "instant_upload_uploads", force: true do |t|
     t.string   "file",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "products", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,6 +1,6 @@
 app = angular.module('instantUpload', [])
 
-@singleIuCtrl = ['$scope', '$element', ($scope, $element) ->
+@multiIuCtrl = ['$scope', '$element', ($scope, $element) ->
 
   # upload event handler
   class UploadHandler
@@ -9,7 +9,8 @@ app = angular.module('instantUpload', [])
       @url = $uploader.parents('form').attr('action')
       @persisted = $uploader.data('persisted')
 
-      @element = $uploader.find('.iu-simple-dropzone')
+      @uploader = $uploader
+      @element = $uploader.find('.iu-multi-dropzone')
 
       @element.bind 'dragenter', @dragEnter
       @element.bind 'dragover',  @dragEnter
@@ -19,8 +20,8 @@ app = angular.module('instantUpload', [])
       $fileInput = $uploader.find('input[type="file"]')
       $fileInput.bind 'change', @drop
 
-      $uploader.find('.iu-simple-select').show 0, ->
-        $selectFiles = $uploader.find('.iu-simple-select-files')
+      $uploader.find('.iu-multi-select').show 0, ->
+        $selectFiles = $uploader.find('.iu-multi-select-files')
         offset = $selectFiles.position()
 
         $fileInput.css
@@ -68,22 +69,22 @@ app = angular.module('instantUpload', [])
 
       @element.removeClass 'iu-drag-over'
 
-      dataTransfer = e.dataTransfer = e.originalEvent && e.originalEvent.dataTransfer
-
       # get files from drag and drop dataTransfer
       if typeof e.originalEvent.dataTransfer == 'undefined'
         files = e.originalEvent.target.files
       else
         files = e.originalEvent.dataTransfer.files
 
+      if $scope.files.length + files.length > 5
+        @uploader.find('.iu-alert').show()
+        return
+
       fd = new FormData
-      fd.append 'user[avatar]', files[0]
+
+      for file in files
+        fd.append 'product[images_attributes][][path]', file
 
       xhr = new XMLHttpRequest
-
-      $scope.$apply ->
-        $scope.uploaded = false
-        $scope.uploadProgress = 0
 
       xhr.upload.addEventListener 'progress', ( (e) =>
         # console.log 'progress'
@@ -97,7 +98,9 @@ app = angular.module('instantUpload', [])
         $scope.$apply ->
           $scope.uploaded = true
 
-        @element.find('img').attr('src', $.parseJSON(xhr.response).avatar.thumb.url)
+          $scope.files = []
+          for image in $.parseJSON(xhr.response)
+            $scope.files.push { path: image.path.thumb.url }
       ), false
 
       xhr.addEventListener 'error', ( (e) =>
@@ -123,22 +126,14 @@ app = angular.module('instantUpload', [])
 
   $scope.init = ($uploader) ->
     handler = new UploadHandler($uploader)
+    $uploader.find('.iu-multi-dropzone').addClass('active')
+    $uploader.find('.iu-multi-files').show()
 
-    # set width of the dropzone div for progressbar
-    $uploader.find('.iu-simple-dropzone').each ->
-      $this = $(this)
+    $scope.files = []
 
-      width = $this.find('img').width()
-      height = $this.find('img').height()
-
-      $this.width width
-      $this.height height
-
-      $this.find('img').css 'width', width
-      $this.find('img').css 'height', height
-
-  # to fix problem with offset in WebKit browsers
-
+    $scope.$apply ->
+      $uploader.find('.iu-multi-files-cache li').each ->
+        $scope.files.push { path: $(this).find('img').attr('src') }
 
   $ -> $scope.init($($element)) if !!window.FormData
 

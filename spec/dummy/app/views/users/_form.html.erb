@@ -16,7 +16,7 @@
     <%= f.file_field :avatar %>
   </div> -->
   <div>
-    <%= instant_upload_for @user, :avatar, version: :thumb %>
+    <%= instant_upload_for @user, :avatar, version: :thumb, width: 100, height: 100 %>
   </div>
 
   <div class="field">

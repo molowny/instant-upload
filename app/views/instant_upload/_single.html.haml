@@ -1,6 +1,6 @@
 .iu-simple{ 'ng-controller' => 'singleIuCtrl', data: { persisted: record.persisted?.to_s } }
   .iu-simple-dropzone{ 'ng-class' => '{uploading:uploaded == false}' }
-    = image_tag preview, class: 'iu-simple-image'
+    = image_tag preview, class: 'iu-simple-image', width: options[:width], height: options[:height]
     .iu-progress-bar{ style: "width: {{ uploadProgress }}%;" }
 
   = file_field :user, resource

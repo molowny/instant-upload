@@ -25,12 +25,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html do
-
         if session[:user_avatar]
           tmp_file = InstantUpload::Upload.find(session[:user_avatar])
           @user.avatar = tmp_file.file
         end
-        
 
         if @user.save
           session.delete(:user_avatar)
@@ -57,7 +55,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render json: { image: @user.avatar.thumb.url } }
+        format.json { render json: @user }
       else
         format.html { render action: 'edit' }
         format.json { render json: @user.errors, status: :unprocessable_entity }

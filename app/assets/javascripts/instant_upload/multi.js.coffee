@@ -109,7 +109,13 @@ app = angular.module('instantUpload', [])
 
           # $scope.files = []
           for image in $.parseJSON(xhr.response)
-            $scope.files.push { path: image[$scope.multi][$scope.version].url }
+            isNew = true
+
+            if $scope.persisted
+              for f in $scope.files
+                isNew = false if f.id == image.id
+
+            $scope.files.push { path: image[$scope.multi][$scope.version].url, id: image.id } if isNew
       ), false
 
       xhr.addEventListener 'error', ( (e) =>
@@ -142,7 +148,8 @@ app = angular.module('instantUpload', [])
 
     $scope.$apply ->
       $uploader.find('.iu-multi-files-cache li').each ->
-        $scope.files.push { path: $(this).find('img').attr('src') }
+        $this = $(this)
+        $scope.files.push { path: $this.find('img').attr('src'), id: $this.data('id') }
 
   $ -> $scope.init($($element)) if !!window.FormData
 

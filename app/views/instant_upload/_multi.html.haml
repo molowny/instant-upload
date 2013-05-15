@@ -9,7 +9,7 @@
 
   %ul.iu-multi-files-cache
     - record.send(field).each do |img|
-      %li= image_tag img.send(options[:multi]).send(options[:version]).url
+      %li{ data: { id: img.id } }= image_tag img.send(options[:multi]).send(options[:version]).url
 
   .iu-alert Too much, only #{options[:limit]}
 

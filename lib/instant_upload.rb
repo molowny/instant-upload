@@ -1,4 +1,4 @@
-require "instant_upload/engine"
+require 'instant_upload/engine'
 
 module InstantUpload
   extend ActiveSupport::Autoload

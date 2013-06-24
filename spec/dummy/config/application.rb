@@ -8,7 +8,7 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
-require "instant_upload"
+require "instant-upload"
 
 module Dummy
   class Application < Rails::Application

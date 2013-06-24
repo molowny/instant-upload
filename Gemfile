@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # Declare your gem's dependencies in instant_upload.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -13,16 +13,16 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
-gem 'carrierwave'
-gem 'haml'
-gem 'jquery-rails'
+# gem 'carrierwave'
+# gem 'haml'
+# gem 'jquery-rails'
 
-group :assets do
-  gem 'sass-rails',   '~> 4.0.0.rc1'
-  gem 'coffee-rails', '~> 4.0.0.rc1'
+# group :assets do
+#   gem 'sass-rails',   '~> 4.0.0.rc1'
+#   gem 'coffee-rails', '~> 4.0.0.rc1'
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', platforms: :ruby
+#   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+#   # gem 'therubyracer', platforms: :ruby
 
-  gem 'uglifier', '>= 1.0.3'
-end
+#   gem 'uglifier', '>= 1.0.3'
+# end

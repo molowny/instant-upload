@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    instant-upload (0.0.1)
+    instant-upload (1.0.2)
       carrierwave
       haml
       rails (~> 4.0.0.rc1)
@@ -207,7 +207,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   carrierwave
-  coffee-rails (~> 4.0.0.beta1)
+  coffee-rails (~> 4.0.0.rc1)
   database_cleaner (= 1.0.0.RC1)
   factory_girl_rails
   guard-rspec
@@ -223,7 +223,7 @@ DEPENDENCIES
   rb-fsevent
   rspec-html-matchers
   rspec-rails
-  sass-rails (~> 4.0.0.beta1)
+  sass-rails (~> 4.0.0.rc1)
   shoulda
   spork
   sqlite3

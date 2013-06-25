@@ -4,17 +4,18 @@
     = file_field_tag "#{record.class.name.downcase}[#{field}_attributes][][#{options[:multi]}]", multiple: true
 
     .iu-multi-select
-      drag & drop or
-      = link_to 'select file from disk', '#', class: 'iu-multi-select-files'
+      = t 'instant_upload.drag_and_drop'
+      = link_to t('instant_upload.select_files'), '#', class: 'iu-multi-select-files'
 
   %ul.iu-multi-files-cache
     - record.send(field).each do |img|
       %li{ data: { id: img.id } }= image_tag img.send(options[:multi]).send(options[:version]).url
 
-  .iu-alert Too much, only #{options[:limit]}
+  .alert.iu-alert= t 'instant_upload.too_much', limit: options[:limit]
 
   %ul.iu-multi-files
     %li{ 'ng-repeat' => 'file in files'}
       %img{ src: "{{ file.path }}" }
+      %a{ 'ng-click' => 'remove($index)'}= t 'instant_upload.remove'
 
 

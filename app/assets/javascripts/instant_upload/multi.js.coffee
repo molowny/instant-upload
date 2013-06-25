@@ -33,9 +33,9 @@ app = angular.module('instantUpload', [])
           cursor: 'pointer'
           position: 'absolute'
           left: offset.left
-          top: offset.top
+          top: $('.iu-multi-dropzone').outerHeight() / 2 + $selectFiles.outerHeight() / 2
           width: $selectFiles.width() + 10
-          height: $selectFiles.height() + 10
+          height: $selectFiles.outerHeight() * 2
           'margin-left': -5
           'margin-top': -25
           'z-index': 2
@@ -151,6 +151,17 @@ app = angular.module('instantUpload', [])
         $this = $(this)
         $scope.files.push { path: $this.find('img').attr('src'), id: $this.data('id') }
 
-  $ -> $scope.init($($element)) if !!window.FormData
+  $scope.remove = (index) ->
+    $scope.files.splice(index, 1)
+
+    file = $scope.files[index]
+
+    $.ajax
+      url: $($element).parents('form').attr('action')
+      method: 'POST'
+      data: {iu_remove: true, index: index, offer: { id: 'true' } }
+
+  $ ->
+    $scope.init($($element)) if !!window.FormData
 
 ]

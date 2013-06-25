@@ -5,7 +5,7 @@ module InstantUpload
       extend ActiveSupport::Concern
 
       included do
-        helper_method :handle_upload, :load_uploaded_files, :clear_uploaded_files
+        helper_method :handle_upload, :load_uploaded_files, :clear_uploaded_files, :remove_uploaded_file
       end
 
       def handle_upload(record, field, options ={})
@@ -23,7 +23,7 @@ module InstantUpload
             end
 
             session[sesssion_key] = [] if session[sesssion_key].blank?
-            session[sesssion_key] << files.map { |f| f.id }
+            session[sesssion_key] = files.map { |f| f.id }
 
             render json: record.send(field)
           else
@@ -38,6 +38,10 @@ module InstantUpload
 
           return true
         else
+           if remove_uploaded_file(record, field)
+            render json: true
+            return true
+          end
           load_uploaded_files(record, field, options)
         end
 
@@ -64,6 +68,19 @@ module InstantUpload
 
       def clear_uploaded_files(record, field)
         session.delete("#{record.class.name.downcase}_#{field}")
+      end
+
+      def remove_uploaded_file(record, field)
+        sesssion_key = "#{record.class.name.downcase}_#{field}"
+
+        if params[:iu_remove].present?
+          logger.info 'remove media'
+          logger.info session[sesssion_key].inspect
+          session[sesssion_key].delete_at params[:index].to_i
+          return true
+        end
+
+        false
       end
 
     end

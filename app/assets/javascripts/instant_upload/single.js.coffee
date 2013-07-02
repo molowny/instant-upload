@@ -129,8 +129,8 @@ app = angular.module('instantUpload', [])
     $uploader.find('.iu-simple-dropzone').each ->
       $this = $(this)
 
-      width = $this.find('img').width()
-      height = $this.find('img').height()
+      width = $this.find('img').outerWidth()
+      height = $this.find('img').outerHeight()
 
       $this.width width
       $this.height height

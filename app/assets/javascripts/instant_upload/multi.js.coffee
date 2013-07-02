@@ -1,4 +1,4 @@
-app = angular.module('instantUpload', [])
+# app = angular.module('instantUpload', [])
 
 @multiIuCtrl = ['$scope', '$element', ($scope, $element) ->
 

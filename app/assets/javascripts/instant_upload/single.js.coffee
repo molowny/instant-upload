@@ -1,4 +1,4 @@
-app = angular.module('instantUpload', [])
+# app = angular.module('instantUpload', [])
 
 @singleIuCtrl = ['$scope', '$element', ($scope, $element) ->
 

@@ -126,17 +126,17 @@ app = angular.module('instantUpload', [])
     handler = new UploadHandler($uploader)
 
     # set width of the dropzone div for progressbar
-    $uploader.find('.iu-simple-dropzone').each ->
-      $this = $(this)
+    # $uploader.find('.iu-simple-dropzone').each ->
+    #   $this = $(this)
 
-      width = $this.find('img').outerWidth()
-      height = $this.find('img').outerHeight()
+    #   width = $this.find('img').outerWidth()
+    #   height = $this.find('img').outerHeight()
 
-      $this.width width
-      $this.height height
+    #   $this.width width
+    #   $this.height height
 
-      $this.find('img').css 'width', width
-      $this.find('img').css 'height', height
+    #   $this.find('img').css 'width', width
+    #   $this.find('img').css 'height', height
 
   $ -> $scope.init($($element)) if !!window.FormData
 

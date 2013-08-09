@@ -154,12 +154,17 @@
   $scope.remove = (index) ->
     $scope.files.splice(index, 1)
 
+    if $scope.persisted
+      method = 'PATCH'
+    else
+      method = 'POST'
+
     file = $scope.files[index]
 
     $.ajax
       url: $($element).parents('form').attr('action')
-      method: 'POST'
-      data: {iu_remove: true, index: index, offer: { id: 'true' } }
+      type: method
+      data: { iu_remove: true, index: index, product: { id: 'true' } }
 
   $ ->
     $scope.init($($element)) if !!window.FormData

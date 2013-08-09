@@ -42,6 +42,12 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
+    if params[:iu_remove].present?
+      @product.images.offset(params[:index]).first.destroy
+      render json: :ok
+      return
+    end
+
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }

@@ -30,17 +30,14 @@
 
         $fileInput.css
           opacity: 0
-          cursor: 'pointer'
           position: 'absolute'
-          left: offset.left
-          top: $('.iu-multi-dropzone').outerHeight() / 2 + $selectFiles.outerHeight() / 2
-          width: $selectFiles.width() + 10
-          height: $selectFiles.outerHeight() * 2
-          'margin-left': -5
-          'margin-top': -25
-          'z-index': 2
           '-ms-filter': '"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"'
           'filter': 'alpha(opacity=0)'
+          'z-index': 2
+
+        $selectFiles.on 'click', (e) ->
+          e.preventDefault()
+          $fileInput.click()
 
       @fileinput = $fileInput
 

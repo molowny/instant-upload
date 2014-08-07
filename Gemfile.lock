@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    instant-upload (1.1.1)
-      rails (~> 4.0.0)
+    instant-upload (1.1.2)
+      rails (>= 4.0.0)
 
 GEM
   remote: https://rubygems.org/

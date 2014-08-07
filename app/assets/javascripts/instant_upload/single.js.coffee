@@ -21,9 +21,10 @@
       $fileInput = $uploader.find('input[type="file"]')
       $fileInput.bind 'change', @drop
 
-      $uploader.find('.iu-simple-select').show 0, ->
+      $uploader.find('.iu-simple-select').show 0, =>
         $selectFiles = $uploader.find('.iu-simple-select-files')
-        offset = $selectFiles.position()
+        offset = @element.position()
+        $image = $uploader.find('.iu-simple-image')
 
         $fileInput.css
           opacity: 0
@@ -31,13 +32,15 @@
           position: 'absolute'
           left: offset.left
           top: offset.top
-          width: $selectFiles.width() + 10
-          height: $selectFiles.height() + 10
-          'margin-left': -5
-          'margin-top': -25
-          'z-index': 2
+          width: $image.width()
+          height: 1
           '-ms-filter': '"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"'
           'filter': 'alpha(opacity=0)'
+          'z-index': 2
+
+        $selectFiles.on 'click', (e) ->
+          e.preventDefault()
+          $fileInput.click()
 
       @fileinput = $fileInput
 

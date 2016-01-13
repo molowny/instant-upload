@@ -15,7 +15,7 @@
 
   %ul.iu-multi-files
     %li{ 'ng-repeat' => 'file in files'}
-      %img{ src: "{{ file.path }}" }
+      %img{ 'ng-src' => "{{ file.path }}" }
       %a{ 'ng-click' => 'remove($index)'}= t 'instant_upload.remove'
 
 

@@ -9,6 +9,8 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Rails 4
   include Sprockets::Rails::Helper
 
+  include CarrierWave::MimeTypes
+
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :fog
@@ -21,7 +23,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
-    asset_path('assets/fallback/' + [version_name, 'default.png'].compact.join('_'))
+    asset_path('assets/instant_upload/' + [version_name, 'default.png'].compact.join('_'))
   end
 
   # Process files as they are uploaded:
@@ -32,7 +34,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  version :thumb do
+  version :thumb, if: :image? do
     process resize_to_fill: [100, 100]
   end
 
@@ -47,5 +49,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+  protected
+    def image?(new_file)
+      new_file.content_type.start_with?('image')
+    end
 
 end

@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20130514075455) do
 
-  create_table "images", force: true do |t|
+  create_table "images", force: :cascade do |t|
     t.integer  "product_id"
     t.string   "path"
     t.datetime "created_at"
@@ -22,19 +22,19 @@ ActiveRecord::Schema.define(version: 20130514075455) do
 
   add_index "images", ["product_id"], name: "index_images_on_product_id"
 
-  create_table "instant_upload_uploads", force: true do |t|
+  create_table "instant_upload_uploads", force: :cascade do |t|
     t.string   "file",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "products", force: true do |t|
+  create_table "products", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "avatar"
     t.datetime "created_at"
